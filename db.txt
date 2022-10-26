@@ -1,0 +1,34 @@
+// Tables used in project
+
+CREATE TABLE regions(
+    region_id INT AUTO_INCREMENT,
+    region_name VARCHAR(100) NOT NULL,
+    PRIMARY KEY(region_id)
+);
+
+CREATE TABLE cameras(
+    camera_id VARCHAR(10),
+    region_id INT NOT NULL,
+    token VARCHAR(64) NOT NULL,
+    name VARCHAR(256) NOT NULL,
+    last_update DATETIME,
+    PRIMARY KEY(camera_id),
+    CONSTRAINT fk_region
+    FOREIGN KEY (region_id)
+    REFERENCES regions(region_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+CREATE TABLE images(
+    image_id BIGINT unsigned AUTO_INCREMENT,
+    camera_id VARCHAR(10) NOT NULL,
+    file_path VARCHAR(256) NOT NULL,
+    image_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY (image_id),
+    CONSTRAINT fk_camera
+    FOREIGN KEY (camera_id)
+    REFERENCES cameras(camera_id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
